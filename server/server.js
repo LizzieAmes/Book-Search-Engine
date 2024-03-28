@@ -24,7 +24,10 @@ if (process.env.NODE_ENV === 'production') {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => authMiddleware({ req }),
+  context: ({ req }) => {
+    const auth = authMiddleware({ req });
+    return { ...auth };
+  },
 });
 
 // Start the Apollo server before applying middleware to the Express app
